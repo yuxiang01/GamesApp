@@ -7,7 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import javax.servlet.http.HttpServletRequest;
 import javax.annotation.Resource;
 
 @Controller
@@ -43,5 +44,25 @@ public class GamesController {
     Games one = gamesService.getOne(queryWrapper);
     String jg = one != null ? "此游戏已注册" : "";
     return jg;
+  }
+  
+  @GetMapping("/update/{id}")
+  public String toUpdatePage(@PathVariable Long id, HttpServletRequest request) {
+    Games gameId = gamesService.query().eq("gameId", id).one();
+    System.out.println("Games:" + gameId);
+    request.setAttribute("game", gameId);
+    return "update";
+  }
+
+  @GetMapping("/result.html")
+  public String toResultPage() {
+    return "result";
+  }
+
+  @PostMapping("/update")
+  public String update(Games games, HttpServletRequest request) {
+    String message = gamesService.updateById(games) ? "修改成功!" : "修改失败!";
+    request.getSession().setAttribute("msg", message);
+    return "redirect:result.html";
   }
 }

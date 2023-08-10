@@ -2,12 +2,15 @@ package com.game.www.entity;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @TableName("games")
 @Data
 public class Games implements Serializable {
+  @TableId(type = IdType.AUTO)
   private Long gameId;
   /**
    * 游戏名称
