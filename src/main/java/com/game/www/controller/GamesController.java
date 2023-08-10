@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.http.HttpServletRequest;
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 public class GamesController {
@@ -19,7 +20,7 @@ public class GamesController {
 
   @GetMapping("/")
   public String index() {
-    return "index";
+    return "select";
   }
 
   @GetMapping("/add.html")
@@ -64,5 +65,11 @@ public class GamesController {
     String message = gamesService.updateById(games) ? "修改成功!" : "修改失败!";
     request.getSession().setAttribute("msg", message);
     return "redirect:result.html";
+  }
+
+  @GetMapping("/list")
+  @ResponseBody
+  List<Games> list() {
+    return gamesService.list();
   }
 }
