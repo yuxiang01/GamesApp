@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script>
+        $(() => {
+            let numRest = /^\d{4}$/;
+            $("input[name=gameName]").blur(() => {
+                let gameName = $("input[name=gameName]").val();
+                $.get("http://localhost:8080/checkName?gameName=" + gameName,function (data) {
+                    $("span").text(data)
+                })
+            })
+            $("input[name=gameYear]").blur(() => {
+                let year = $("input[name=gameYear]").val();
+                if (!numRest.test(year)){
+                    alert("请输入四位数字！")
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+<form th:action="@{/add}" method="post">
+    <table>
+        <thead>
+        <tr>
+            <td colspan="2">
+                <h2>新增游戏</h2>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>游戏名称：</td>
+            <td><input type="text" name="gameName"/>*</td>
+            <td>
+                <span style="color: #ff332c;"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>游戏类型：</td>
+            <td><input type="text" name="gameType"/></td>
+        </tr>
+        <tr>
+            <td>游戏类型：</td>
+            <td><input type="text" name="gameCompany"/></td>
+        </tr>
+        <tr>
+            <td>游戏类型：</td>
+            <td><input type="text" name="gameYear"/></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><input type="submit" value="添加"/></td>
+            <td><input type="reset" value="返回"/></td>
+        </tr>
+        </tfoot>
+    </table>
+</form>
+</body>
+</html>
