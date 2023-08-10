@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>修改游戏</title>
+    <style>
+        td{
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+<center>
+    <h1>修改游戏</h1>
+    <form action="/update" method="post">
+        <input type="hidden" name="gameId" th:value="${game.gameId}">
+        <table>
+            <tr>
+                <td>游戏名称:</td>
+                <td>
+                    <input type="text" name="gameName" th:value="${game.gameName}">
+                    <span class="tip"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>游戏类型:</td>
+                <td><input type="text" name="gameType" th:value="${game.gameType}"></td>
+            </tr>
+            <tr>
+                <td>发行公司:</td>
+                <td><input type="text" name="gameCompany" th:value="${game.gameCompany}"></td>
+            </tr>
+            <tr>
+                <td>发行年份</td>
+                <td><input type="text" name="gameYear" th:value="${game.gameYear}"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="修改">
+                    <input type="button" value="返回" onclick="history.back()">
+                </td>
+            </tr>
+        </table>
+    </form>
+</center>
+</body>
+</html>
