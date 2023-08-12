@@ -5,11 +5,12 @@ import com.game.www.entity.Games;
 import com.game.www.service.GamesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,12 +25,12 @@ public class GamesController {
   }
 
   @GetMapping("/add.html")
-  public String add(){
+  public String add() {
     return "add";
   }
 
   @PostMapping("/add")
-  public String add(Games games){
+  public String add(Games games) {
     boolean isAdd = gamesService.save(games);
     if (isAdd)
       return "redirect:/";
@@ -39,14 +40,14 @@ public class GamesController {
 
   @GetMapping("/checkName")
   @ResponseBody
-  public String checkName(String gameName){
+  public String checkName(String gameName) {
     QueryWrapper<Games> queryWrapper = new QueryWrapper();
-    queryWrapper.eq("gameName",gameName);
+    queryWrapper.eq("gameName", gameName);
     Games one = gamesService.getOne(queryWrapper);
     String jg = one != null ? "此游戏已注册" : "";
     return jg;
   }
-  
+
   @GetMapping("/update/{id}")
   public String toUpdatePage(@PathVariable Long id, HttpServletRequest request) {
     Games gameId = gamesService.query().eq("gameId", id).one();
@@ -71,5 +72,12 @@ public class GamesController {
   @ResponseBody
   List<Games> list() {
     return gamesService.list();
+  }
+
+  @GetMapping("/delete")
+  public String delete(Integer id, HttpServletRequest request) {
+    String message = gamesService.removeById(id) ? "删除成功" : "删除失败";
+    request.getSession().setAttribute("msg", message);
+    return "redirect:result.html";
   }
 }
